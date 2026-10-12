@@ -5,12 +5,11 @@ import {
   TRIANGLE_VERTICES,
   SQUARE_VERTICES,
   SQUARE_INDICES,
-  HEXAGON_VERTICES,         // agregado para el hexágono
-  generateCircleVertices,   // agregado para el círculo
+  HEXAGON_VERTICES,         
+  generateCircleVertices,   
   POSITION_STRIDE_BYTES
 } from './shared';
 
-// actualizamos el tipo para incluir las nuevas figuras que nos tocan
 export type FigureType = 'triangle' | 'square' | 'hexagon' | 'circle';
 export type ColorType = 'red' | 'green' | 'blue';
 
@@ -21,14 +20,14 @@ const COLORS: Record<ColorType, [number, number, number]> = {
   blue: [0, 0, 1],
 };
 
-// Step 1. Get the WebGL2 context.
+// paso 1: obtener el contexto de webgl2
 function getContext(canvas: HTMLCanvasElement): WebGL2RenderingContext {
   const gl = canvas.getContext('webgl2');
   if (!gl) throw new Error('WebGL2 is not available.');
   return gl;
 }
 
-// Step 2. Vertex specification: copy the vertex data to the GPU.
+// paso 2: especificación de vértices, copiar los datos de vértices a la gpu
 function createVertexBuffer(gl: WebGL2RenderingContext, data: Float32Array): WebGLBuffer {
   const buffer = gl.createBuffer()!;
   gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
@@ -44,7 +43,7 @@ function createIndexBuffer(gl: WebGL2RenderingContext, indices: Uint16Array): We
   return buffer;
 }
 
-// Step 3. Describe how the vertex data is laid out, using FF's attribute slots.
+// paso 3: describir cómo están organizados los datos de vértices, usando los slots de atributos de ff
 function createPositionVAO(gl: WebGL2RenderingContext, vertexBuffer: WebGLBuffer): WebGLVertexArrayObject {
   const vao = gl.createVertexArray()!;
   gl.bindVertexArray(vao);
@@ -61,7 +60,7 @@ function createPositionVAO(gl: WebGL2RenderingContext, vertexBuffer: WebGLBuffer
   return vao;
 }
 
-// Step 4. Pipeline state: canvas size, viewport, clear color.
+// paso 4: estado del pipeline: tamaño del canvas, viewport, color de fondo
 function setupState(gl: WebGL2RenderingContext, canvas: HTMLCanvasElement): void {
   canvas.width = CANVAS_SIZE;
   canvas.height = CANVAS_SIZE;
@@ -69,7 +68,7 @@ function setupState(gl: WebGL2RenderingContext, canvas: HTMLCanvasElement): void
   gl.clearColor(...CLEAR_COLOR);
 }
 
-// Step 5. Draw.
+// paso 5: dibujar
 function drawScene(
   gl: WebGL2RenderingContext,
   ff: ReturnType<typeof createFixedFunction>,
