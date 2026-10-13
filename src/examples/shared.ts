@@ -1,4 +1,4 @@
-export const CLEAR_COLOR: readonly [number, number, number, number] = [0x1b / 255, 0x1e / 255, 0x2b / 255, 1];
+export const CLEAR_COLOR: readonly [number, number, number, number] = [1, 1, 1, 1];
 
 export const CANVAS_SIZE = 480;
 
