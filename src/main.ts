@@ -8,16 +8,34 @@ const canvas = document.getElementById('gl-canvas') as HTMLCanvasElement;
 const btnFigure = document.getElementById('btn-figure')!;
 const btnColor = document.getElementById('btn-color')!;
 
+// colores en formato css para el botón 
+const cssColors: Record<ColorType, string> = {
+  red: '#ef4444',    // rojo
+  green: '#22c55e',  // verde
+  blue: '#3b82f6',   // azul
+};
+
+// nombres en español para el botón de figura
+const figureNames: Record<FigureType, string> = {
+  triangle: 'triángulo',
+  square: 'cuadrado',
+  hexagon: 'hexágono',
+  circle: 'círculo'
+};
+
 function updateUI() {
-  // 1. Renderizar la figura actual con el color global persistente
+  // 1. renderizar la figura actual con el color global
   renderScene(canvas, currentFigure, currentColor);
 
-  // 2. Actualizar el texto dentro de los botones superiores
-  btnFigure.textContent = `Shape: ${currentFigure}`;
-  btnColor.textContent = `Color: ${currentColor}`;
+  // 2. actualizar el texto del botón de figura
+  btnFigure.textContent = `figura: ${figureNames[currentFigure]}`;
+
+  // 3. actualizar el color de fondo del botón de color 
+  btnColor.style.backgroundColor = cssColors[currentColor];
+  btnColor.title = `color actual: ${currentColor}`; // por accesibilidad
 }
 
-// Evento del botón de figura (Ciclo: triángulo -> cuadrado -> hexágono -> círculo -> triángulo)
+// evento del botón de figura
 btnFigure.addEventListener('click', () => {
   if (currentFigure === 'triangle') currentFigure = 'square';
   else if (currentFigure === 'square') currentFigure = 'hexagon';
@@ -27,8 +45,7 @@ btnFigure.addEventListener('click', () => {
   updateUI();
 });
 
-// Evento del botón de color (Ciclo: rojo -> verde -> azul -> rojo)
-// El color persiste de forma global al cambiar de figura.
+// evento del botón de color
 btnColor.addEventListener('click', () => {
   if (currentColor === 'red') currentColor = 'green';
   else if (currentColor === 'green') currentColor = 'blue';
@@ -37,5 +54,5 @@ btnColor.addEventListener('click', () => {
   updateUI();
 });
 
-// Inicialización de la página (Arranca con triángulo en rojo)
+// inicialización de la página
 updateUI();
